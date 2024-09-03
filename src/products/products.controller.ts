@@ -1,0 +1,46 @@
+// src/products/products.controller.ts
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Query } from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { Product } from './entities/product.entity';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
+
+@ApiTags('products')
+@Controller('products')
+export class ProductsController {
+  constructor(private readonly productsService: ProductsService) { }
+
+  @Get()
+  @ApiResponse({ status: 200, description: 'List all products' })
+  async findAll(): Promise<Product[]> {
+    return this.productsService.findAll();
+  }
+
+  @Get(':id')
+  @ApiResponse({ status: 200, description: 'Get a product by ID' })
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
+    return this.productsService.findOne(id);
+  }
+
+  @Post()
+  @ApiResponse({ status: 201, description: 'Create a new product' })
+  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+    return this.productsService.create(createProductDto);
+  }
+
+  @Put(':id')
+  @ApiResponse({ status: 200, description: 'Update a product' })
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
+    return this.productsService.update(id, updateProductDto);
+  }
+
+  @Delete(':id')
+  @ApiResponse({ status: 204, description: 'Delete a product' })
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string, result: any }> {
+    return this.productsService.remove(id);
+  }
+}
