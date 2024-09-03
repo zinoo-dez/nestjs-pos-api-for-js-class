@@ -50,12 +50,12 @@ export class CategoriesService {
     return this.categoryRepository.save(category);
   }
 
-  async remove(id: number): Promise<{ message: string; result: any }> {
+  async remove(id: number): Promise<{ message: string; }> {
     const result = await this.categoryRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Category with ID ${id} not found`);
     }
-    return { message: "Delete successfully", result };
+    return { message: "Delete successfully" };
   }
 
 }

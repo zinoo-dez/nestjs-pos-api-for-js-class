@@ -58,11 +58,11 @@ export class ProductsService {
     return this.productRepository.save(product);
   }
 
-  async remove(id: number): Promise<{ message: string, result: any }> {
+  async remove(id: number): Promise<{ message: string }> {
     const result = await this.productRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
-    return { message: "Delete successfully", result };
+    return { message: "Delete successfully" };
   }
 }

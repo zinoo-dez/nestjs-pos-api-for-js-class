@@ -42,7 +42,7 @@ export class CategoriesController {
   }
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Delete a category' })
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string; result: any }> {
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string; }> {
     return this.categoriesService.remove(id);
   }
 

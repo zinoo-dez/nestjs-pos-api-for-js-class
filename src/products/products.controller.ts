@@ -1,5 +1,5 @@
 // src/products/products.controller.ts
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -31,6 +31,8 @@ export class ProductsController {
 
   @Put(':id')
   @ApiResponse({ status: 200, description: 'Update a product' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
@@ -40,7 +42,8 @@ export class ProductsController {
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Delete a product' })
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string, result: any }> {
+  @ApiResponse({ status: 404, description: 'Product not found' })
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string }> {
     return this.productsService.remove(id);
   }
 }
