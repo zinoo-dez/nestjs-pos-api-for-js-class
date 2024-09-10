@@ -1,24 +1,29 @@
 // src/products/products.controller.ts
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
 
+  // @UseGuards(JwtAuthGuard)
   @Get()
   @ApiResponse({ status: 200, description: 'List all products' })
-  async findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search?: string
+  ): Promise<Product[]> {
+    return this.productsService.findAll({ page, limit, search });
   }
 
-  @Get(':id')
-  @ApiResponse({ status: 200, description: 'Get a product by ID' })
+  @Get(':id') @ApiResponse({ status: 200, description: 'Get a product by ID' })
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productsService.findOne(id);
   }

@@ -4,9 +4,18 @@ import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './user/user.module';
+import { UsersService } from './user/user.service';
+
+
+
+
+
 
 @Module({
   imports: [
+    // ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -15,11 +24,15 @@ import { ProductsModule } from './products/products.module';
       password: '',
       database: 'pos_app',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false, // Set to false
+      logging: true,
     }),
     CategoriesModule,
-    ProductsModule],
+    ProductsModule,
+    AuthModule,
+    UsersModule,
+    ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsersService],
 })
 export class AppModule { }
