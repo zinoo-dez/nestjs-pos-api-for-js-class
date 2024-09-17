@@ -5,9 +5,10 @@ import * as bcrypt from "bcrypt";
 export class User {
     @PrimaryGeneratedColumn()
     user_id: number;
+
     @Column()
     username: string;
-    
+
     @Column()
     @IsEmail()
     email: string;
@@ -21,5 +22,5 @@ export class User {
     //         this.password = await bcrypt.hash(this.password,10);
     //     }
     // }
-    
+
 }

@@ -14,6 +14,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document, {
     jsonDocumentUrl: 'swagger/json',
   });
+  // Enable CORS
+  app.enableCors({
+    origin: 'http://localhost:5173', // Replace with your frontend URL
+    credentials: true,
+  });
   await app.listen(4400, () => console.log("http://localhost:4400"));
 }
 bootstrap();
