@@ -11,7 +11,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) { }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   @ApiResponse({ status: 200, description: 'List all categories' })
   async findAll(
